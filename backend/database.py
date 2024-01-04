@@ -1,10 +1,4 @@
-import sqlalchemy as sql
-import sqlalchemy.ext.declarative as declarative
-import sqlalchemy.orm as orm
+from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 connection_string = "mysql+mysqlconnector://root:12345@127.0.0.1:3306/myapp"
-engine = sql.create_engine(connection_string, echo=True)
-
-SessionLocal = orm.sessionmaker(bind=engine, autocommit=False, autoflush=False)
-
-Base = declarative.declarative_base()
+engine = create_engine(connection_string, echo=True)
