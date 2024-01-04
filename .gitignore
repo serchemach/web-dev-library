@@ -132,3 +132,6 @@ dist
 
 .venv
 .vscode
+
+backend/uploads
+backend/__pycache__
