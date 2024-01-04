@@ -2,7 +2,8 @@ import pydantic as pydantic
 
 
 class _UserBase(pydantic.BaseModel):
-    name: str
+    username: str
+    email: str
 
 
 class UserCreate(_UserBase):
