@@ -1,7 +1,7 @@
 from pyexpat import model
 from fastapi import HTTPException, security
 import fastapi
-from sqlmodel import Session, select
+from sqlmodel import SQLModel, Session, select
 import database as database, models as models
 import passlib.hash as hash
 import jwt
@@ -56,7 +56,7 @@ async def update_user_by_id(user_id: int, user: models.UserCreate, db: Session):
     user_obj = await get_user_by_id(user_id, db)
     if user_obj is None:
         db.close()
-        raise HTTPException(status_code=404, detail=f"User with username={user_name} doesn't exist")
+        raise HTTPException(status_code=404, detail=f"User with id={user_id} doesn't exist")
     
     user_obj.username = user.username
     user_obj.email = user.email
@@ -107,16 +107,17 @@ async def create_review(review: models.ReviewCreate, db: Session):
     return review_obj
 
 
+class Token(SQLModel):
+    access_token: str
+    token_type: str
+
 async def create_token(user: models.User):
     token = jwt.encode({
         "name": user.username,
         "id": user.id,
         "email": user.email
     }, JWT_SECRET, algorithm="HS256")
-    return {
-        "access_token": token, 
-        "token_type": "Bearer"
-    }
+    return Token(access_token=token, token_type="Bearer")
 
 
 async def create_book(book: models.BookCreate, db: Session):

@@ -2,24 +2,18 @@ import json
 import os
 from typing_extensions import Annotated
 import fastapi as fastapi
+from fastapi import openapi
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import FileResponse
 import fastapi.security as security
 from httpx import HTTPError
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from models import BookBase, BookCreate, Review, ReviewBase, ReviewCreate, User, UserCreate
+from models import Book, BookBase, BookCreate, Review, ReviewBase, ReviewCreate, User, UserCreate
 
 import services as services
 
 app = fastapi.FastAPI()
-
-openapi_schema = get_openapi(
-    title="Testing!",
-    version="0.1.0",
-    routes=app.routes
-)
-
 
 @app.get("/api")
 async def root():
@@ -30,39 +24,39 @@ async def root():
 async def create_user(
     user: UserCreate,
     db: Session = fastapi.Depends(services.get_db)
-):
+) -> User:
     user = await services.create_user(user, db)
     return user
 
 
 @app.get("/api/user/{user_id}", response_model=User)
-async def get_user_by_id(user_id: int, db: Session = fastapi.Depends(services.get_db)):
+async def get_user_by_id(user_id: int, db: Session = fastapi.Depends(services.get_db)) -> User | None:
     user = await services.get_user_by_id(user_id, db)
     return user
 
 
 @app.get("/api/users", response_model=User)
-async def get_user_by_name(user_name: str | None = None, db: Session = fastapi.Depends(services.get_db)):
+async def get_user_by_name(user_name: str | None = None, db: Session = fastapi.Depends(services.get_db)) -> User | None:
     print(user_name)
     user = await services.get_user_by_name(user_name, db)
     return user
 
 
 @app.delete("/api/user/{user_id}", response_model=User)
-async def delete_user_by_id(user_id: int, db: Session = fastapi.Depends(services.get_db)):
+async def delete_user_by_id(user_id: int, db: Session = fastapi.Depends(services.get_db)) -> User | None:
     user = await services.delete_user_by_id(user_id, db)
     return user
 
 
 @app.delete("/api/users", response_model=User)
-async def delete_user_by_name(user_name: str | None = None, db: Session = fastapi.Depends(services.get_db)):
+async def delete_user_by_name(user_name: str | None = None, db: Session = fastapi.Depends(services.get_db)) -> User | None:
     print(user_name)
     user = await services.delete_user_by_name(user_name, db)
     return user
 
 
 @app.get("/api/users/me")
-async def get_current_user(user: User = fastapi.Depends(services.get_current_user)):
+async def get_current_user(user: User = fastapi.Depends(services.get_current_user)) -> User | None:
     return user
 
 
@@ -71,7 +65,7 @@ async def update_user_by_id(
     user_id: int,
     user: UserCreate,
     db: Session = fastapi.Depends(services.get_db)
-):
+) -> User:
     user = await services.update_user_by_id(user_id, user, db)
     return user
 
@@ -81,7 +75,7 @@ async def create_review(
     review: ReviewCreate,
     db: Session = fastapi.Depends(services.get_db),
     user: User = fastapi.Depends(services.get_current_user)
-):
+) -> Review:
     if user.id != review.owner_id:
         raise fastapi.HTTPException(
             status_code=401, detail="Can only add your own reviews")
@@ -93,7 +87,7 @@ async def create_review(
 async def generate_token(
     form_data: security.OAuth2PasswordRequestForm = fastapi.Depends(),
     db: Session = fastapi.Depends(services.get_db)
-):
+) -> services.Token:
     user = await services.authentificate_user(form_data.username, form_data.password, db)
     if user is None:
         raise fastapi.HTTPException(
@@ -104,7 +98,7 @@ async def generate_token(
 
 @app.post("/api/upload-book/")
 async def upload_book(file: Annotated[fastapi.UploadFile, fastapi.File(description="A file read as UploadFile")], 
-                      name: str, description: str, db: Session = fastapi.Depends(services.get_db)):
+                      name: str, description: str, db: Session = fastapi.Depends(services.get_db)) -> Book:
     if not file:
         return {
             "message": "No upload file sent"
@@ -123,7 +117,7 @@ async def upload_book(file: Annotated[fastapi.UploadFile, fastapi.File(descripti
 
 
 @app.get("/api/get-book/{id}")
-async def get_book_by_id(id: int, db: Session = fastapi.Depends(services.get_db)):
+async def get_book_by_id(id: int, db: Session = fastapi.Depends(services.get_db)) -> Book | None:
     book = await services.get_book_by_id(id, db)
     return book
 
@@ -133,3 +127,12 @@ async def read_file(file_path: str):
         raise fastapi.HTTPException(status_code=404, detail="No SUCH FILE")
 
     return FileResponse(file_path)
+
+openapi_schema = get_openapi(
+    title="Testing!",
+    version="0.1.0",
+    routes=app.routes
+)
+
+with open('openapi.json', 'w') as f:
+    json.dump(openapi_schema, f)
