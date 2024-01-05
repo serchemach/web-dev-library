@@ -77,14 +77,14 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/api",
-    alias: "root_api_get",
+    alias: "root",
     requestFormat: "json",
-    response: z.unknown(),
+    response: z.string(),
   },
   {
     method: "get",
     path: "/api/files/",
-    alias: "read_file_api_files__get",
+    alias: "read_file",
     requestFormat: "json",
     parameters: [
       {
@@ -105,7 +105,7 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/api/get-book/:id",
-    alias: "get_book_by_id_api_get_book__id__get",
+    alias: "get_book_by_id",
     requestFormat: "json",
     parameters: [
       {
@@ -126,7 +126,7 @@ const endpoints = makeApi([
   {
     method: "post",
     path: "/api/get-token",
-    alias: "generate_token_api_get_token_post",
+    alias: "generate_token",
     requestFormat: "form-url",
     parameters: [
       {
@@ -147,7 +147,7 @@ const endpoints = makeApi([
   {
     method: "post",
     path: "/api/review",
-    alias: "create_review_api_review_post",
+    alias: "create_review",
     requestFormat: "json",
     parameters: [
       {
@@ -168,7 +168,7 @@ const endpoints = makeApi([
   {
     method: "post",
     path: "/api/upload-book/",
-    alias: "upload_book_api_upload_book__post",
+    alias: "upload_book",
     requestFormat: "form-data",
     parameters: [
       {
@@ -199,7 +199,7 @@ const endpoints = makeApi([
   {
     method: "post",
     path: "/api/user",
-    alias: "create_user_api_user_post",
+    alias: "create_user",
     requestFormat: "json",
     parameters: [
       {
@@ -220,7 +220,7 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/api/user/:user_id",
-    alias: "get_user_by_id_api_user__user_id__get",
+    alias: "get_user_by_id",
     requestFormat: "json",
     parameters: [
       {
@@ -241,7 +241,7 @@ const endpoints = makeApi([
   {
     method: "delete",
     path: "/api/user/:user_id",
-    alias: "delete_user_by_id_api_user__user_id__delete",
+    alias: "delete_user_by_id",
     requestFormat: "json",
     parameters: [
       {
@@ -262,7 +262,7 @@ const endpoints = makeApi([
   {
     method: "put",
     path: "/api/user/:user_id",
-    alias: "update_user_by_id_api_user__user_id__put",
+    alias: "update_user_by_id",
     requestFormat: "json",
     parameters: [
       {
@@ -288,7 +288,7 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/api/users",
-    alias: "get_user_by_name_api_users_get",
+    alias: "get_user_by_name",
     requestFormat: "json",
     parameters: [
       {
@@ -309,7 +309,7 @@ const endpoints = makeApi([
   {
     method: "delete",
     path: "/api/users",
-    alias: "delete_user_by_name_api_users_delete",
+    alias: "delete_user_by_name",
     requestFormat: "json",
     parameters: [
       {
@@ -330,7 +330,7 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/api/users/me",
-    alias: "get_current_user_api_users_me_get",
+    alias: "get_current_user",
     requestFormat: "json",
     response: z.union([User, z.null()]),
   },

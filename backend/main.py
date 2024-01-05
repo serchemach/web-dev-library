@@ -1,11 +1,14 @@
 import json
 import os
+import string
 from typing_extensions import Annotated
 import fastapi as fastapi
-from fastapi import openapi
+from fastapi import FastAPI, openapi
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import FileResponse
+from fastapi.routing import APIRoute
 import fastapi.security as security
+from fastapi.staticfiles import StaticFiles
 from httpx import HTTPError
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select
@@ -16,8 +19,8 @@ import services as services
 app = fastapi.FastAPI()
 
 @app.get("/api")
-async def root():
-    return {"message": "server is UP!"}
+async def root() -> str:
+    return "server is UP!"
 
 
 @app.post("/api/user", response_model=User)
@@ -128,6 +131,21 @@ async def read_file(file_path: str):
 
     return FileResponse(file_path)
 
+
+def use_route_names_as_operation_ids(application: FastAPI) -> None:
+    """
+    Simplify operation IDs so that generated API clients have simpler function
+    names.
+
+    Should be called only after all routes have been added.
+    """
+    for route in application.routes:
+        if isinstance(route, APIRoute):
+            route: APIRoute = route
+            route.operation_id = route.name
+
+use_route_names_as_operation_ids(app)
+
 openapi_schema = get_openapi(
     title="Testing!",
     version="0.1.0",
@@ -136,3 +154,11 @@ openapi_schema = get_openapi(
 
 with open('openapi.json', 'w') as f:
     json.dump(openapi_schema, f)
+
+
+app.mount("/assets", StaticFiles(directory="../frontend/dist/assets"), name="static")
+
+# Simply the root will return our Svelte build
+@app.get("/{cool:path}", response_class=FileResponse)
+async def main(cool: str):
+    return "../frontend/dist/index.html"
