@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { createApiClient } from '../openapi_clients';
-  let apiClient = createApiClient("/");
+  import LoginForm from "./LoginForm.svelte";
+import apiClient from "./api";
 
   let result = "";
   apiClient.get("/api").then((res) => {
@@ -26,3 +26,5 @@
 <div>
   response 2 is {res2}
 </div>
+
+<LoginForm />

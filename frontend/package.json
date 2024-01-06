@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "build_api": "npx openapi-zod-client ../backend/openapi.json -o ./src/openapi_clients.ts",
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build_api && vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
