@@ -1,5 +1,4 @@
 from sqlmodel import Field, SQLModel, Relationship
-import database as database
 import passlib.hash as hash
 
 class UserBase(SQLModel):

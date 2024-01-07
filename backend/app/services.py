@@ -2,7 +2,7 @@ from pyexpat import model
 from fastapi import HTTPException, security
 import fastapi
 from sqlmodel import SQLModel, Session, select
-import database as database, models as models
+import app.database as database, app.models as models
 import passlib.hash as hash
 import jwt
 JWT_SECRET = "my-secret"
