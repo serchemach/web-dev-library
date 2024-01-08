@@ -24,16 +24,6 @@ const HTTPValidationError = z
   .partial()
   .passthrough();
 const user_name = z.union([z.string(), z.null()]).optional();
-const ReviewCreate = z
-  .object({ content: z.string(), owner_id: z.number().int().optional() })
-  .passthrough();
-const Review = z
-  .object({
-    content: z.string(),
-    owner_id: z.number().int().optional(),
-    id: z.union([z.number(), z.null()]),
-  })
-  .passthrough();
 const Body_generate_token_api_get_token_post = z
   .object({
     grant_type: z.union([z.string(), z.null()]).optional(),
@@ -58,6 +48,16 @@ const Book = z
     id: z.union([z.number(), z.null()]),
   })
   .passthrough();
+const ReviewCreate = z
+  .object({ content: z.string(), owner_id: z.number().int().optional() })
+  .passthrough();
+const Review = z
+  .object({
+    content: z.string(),
+    owner_id: z.number().int().optional(),
+    id: z.union([z.number(), z.null()]),
+  })
+  .passthrough();
 
 export const schemas = {
   UserCreate,
@@ -65,12 +65,12 @@ export const schemas = {
   ValidationError,
   HTTPValidationError,
   user_name,
-  ReviewCreate,
-  Review,
   Body_generate_token_api_get_token_post,
   Token,
   Body_upload_book_api_upload_book__post,
   Book,
+  ReviewCreate,
+  Review,
 };
 
 const endpoints = makeApi([

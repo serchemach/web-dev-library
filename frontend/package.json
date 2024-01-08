@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "build_api": "npx openapi-zod-client ../backend/openapi.json -o ./src/openapi_clients.ts",
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "npm run build_api && vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
+    "@smui/layout-grid": "^7.0.0-beta.16",
     "@smui/textfield": "^7.0.0-beta.16",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@tsconfig/svelte": "^5.0.2",
@@ -22,7 +23,9 @@
   },
   "dependencies": {
     "@smui/button": "^7.0.0-beta.16",
+    "await-to-js": "^3.0.0",
     "openapi-zod-client": "^1.15.0",
+    "svelte-material-ui": "^7.0.0-beta.16",
     "svelte-routing": "^2.11.0"
   }
 }

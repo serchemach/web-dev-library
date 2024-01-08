@@ -4,17 +4,20 @@
   import Counter from './lib/Counter.svelte'
   import Counter2 from './lib/Counter2.svelte';
   import { Router, Link, Route } from "svelte-routing";
+  import LoginForm from './lib/LoginForm.svelte';
+  import Home from './lib/Home.svelte';
 </script>
 
 <main>
   <Router>
     <nav>
+      <Link to="/login">LoginForm</Link>
       <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
     </nav>
     <div>
-      <Route path="/about" component={Counter2} />
+      <Route path="/login" component={LoginForm} />
       <Route path="/"><Counter /></Route>
+      <Route path="/home"><Home /></Route>
     </div>
   </Router>
 </main>
