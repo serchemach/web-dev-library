@@ -6,12 +6,11 @@
     import Textfield from '@smui/textfield';
     import HelperText from '@smui/textfield/helper-text';
     import Button, { Label } from "@smui/button";
+    import { apiToken } from "./stores";
 
     let username = "";
     let password = "";
     let isValidLogin = true;
-    
-    apiClient.root();
 
     const onLogin = async () => {
         const [err, tokenObj] = await to(apiClient.generate_token({
@@ -24,7 +23,8 @@
         }
 
         console.log(tokenObj);
-        navigate("/home");
+        $apiToken = tokenObj.access_token;
+        navigate("/");
     }
 </script>
   
@@ -33,14 +33,22 @@
         color: red;
         margin: 10px;
     }
+
+    
+    #container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem;
+        text-align: center;
+    }
 </style>
 
-<div>
+<div id="container">
     <Textfield invalid={!isValidLogin} bind:value={username} label="Username">
         <HelperText slot="helper">Helper Text</HelperText>
     </Textfield>
 
-    <Textfield invalid={!isValidLogin} bind:value={password} label="Password">
+    <Textfield type="password" invalid={!isValidLogin} bind:value={password} label="Password">
         <HelperText slot="helper">Helper Text</HelperText>
     </Textfield>
 

@@ -2,7 +2,8 @@
 -- 	id INT AUTO_INCREMENT PRIMARY KEY,
 -- 	username VARCHAR(50),
 -- 	email VARCHAR(50),
--- 	pass_hash VARCHAR(255) NOT NULL
+-- 	pass_hash VARCHAR(255) NOT NULL,
+      ROLE VARCHAR(
 -- );
 
 -- CREATE TABLE reviews (

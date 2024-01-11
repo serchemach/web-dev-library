@@ -1,9 +1,7 @@
 <script>
     import Header from "./components/Header.svelte";
-    const pageTitle = "Home";
-
+    const pageTitle = "Books";
 </script>
 
 
-<div>HOME SWEET HOME</div>
-
+<div>BPPLS </div>
