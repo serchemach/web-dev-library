@@ -17,9 +17,10 @@
 {#each tabs as tab, i (i)}
     <Link style="text-decoration:none" to={tabLinks[i]}>
 
-        <Button variant={i == currentTabIndex ? "unelevated" : "outlined"}>
+        <Button variant={i == currentTabIndex ? "unelevated" : "outlined"} >
             <Label>{tab}</Label>
         </Button>
     </Link>
 {/each}
+
 

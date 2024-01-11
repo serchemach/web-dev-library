@@ -136,3 +136,14 @@ async def create_book(book: models.BookCreate, db: Session):
 
 async def get_book_by_id(book_id: int, db: Session):
     return db.exec(select(models.Book).where(models.Book.id == book_id)).first()
+
+async def get_books_for_user(offset: int, limit: int, db: Session, user: models.User):
+    favorite_books = user.favorite_books
+    books_to_show = db.exec(select(models.Book).offset(offset).limit(limit))
+
+    return map(lambda x: models.BookView(
+        name=x.name, 
+        description=x.description,
+        id=x.id,
+        isFavorite=x in favorite_books
+        ), books_to_show)

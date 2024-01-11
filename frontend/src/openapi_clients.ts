@@ -48,6 +48,14 @@ const Book = z
     id: z.union([z.number(), z.null()]),
   })
   .passthrough();
+const BookView = z
+  .object({
+    name: z.string(),
+    description: z.string(),
+    id: z.number().int(),
+    isFavorite: z.boolean(),
+  })
+  .passthrough();
 const ReviewCreate = z
   .object({ content: z.string(), owner_id: z.number().int().optional() })
   .passthrough();
@@ -69,6 +77,7 @@ export const schemas = {
   Token,
   Body_upload_book_api_upload_book__post,
   Book,
+  BookView,
   ReviewCreate,
   Review,
 };
@@ -115,6 +124,32 @@ const endpoints = makeApi([
       },
     ],
     response: z.union([Book, z.null()]),
+    errors: [
+      {
+        status: 422,
+        description: `Validation Error`,
+        schema: HTTPValidationError,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/api/get-books",
+    alias: "get_books",
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "offset",
+        type: "Query",
+        schema: z.number().int(),
+      },
+      {
+        name: "limit",
+        type: "Query",
+        schema: z.number().int(),
+      },
+    ],
+    response: z.array(BookView),
     errors: [
       {
         status: 422,

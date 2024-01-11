@@ -40,7 +40,6 @@ openapi_schema = get_openapi(
 with open('openapi.json', 'w') as f:
     json.dump(openapi_schema, f)
 
-
 app.mount("/assets", StaticFiles(directory="../frontend/dist/assets"), name="static")
 
 # Simply the root will return our Svelte build

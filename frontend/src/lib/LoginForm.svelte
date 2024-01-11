@@ -40,7 +40,12 @@
         margin: 0 auto;
         padding: 2rem;
         text-align: center;
+        display: flex;
+        place-items: center;
+        min-width: 320px;
+        min-height: 100vh;
     }
+    
 </style>
 
 <div id="container">

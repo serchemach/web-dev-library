@@ -19,10 +19,11 @@
             <Header currentTabIndex={0} /> 
             <Home />
         </Route>
-
+        
         <Route path="/books">
             <Verify />
             <Header currentTabIndex={1} /> 
+            <div>{JSON.stringify(window.location.search)}</div>
             <Books />
         </Route>
 
