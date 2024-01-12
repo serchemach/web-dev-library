@@ -45,4 +45,6 @@ app.mount("/assets", StaticFiles(directory="../frontend/dist/assets"), name="sta
 # Simply the root will return our Svelte build
 @app.get("/{cool:path}", response_class=FileResponse)
 async def main(cool: str):
+    print("FIFIIIF")
     return "../frontend/dist/index.html"
+

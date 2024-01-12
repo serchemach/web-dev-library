@@ -37,8 +37,12 @@ const Body_generate_token_api_get_token_post = z
 const Token = z
   .object({ access_token: z.string(), token_type: z.string() })
   .passthrough();
-const Body_upload_book_api_upload_book__post = z
-  .object({ file: z.instanceof(File) })
+const FavoriteBookLink = z
+  .object({
+    user_id: z.union([z.number(), z.null()]),
+    book_id: z.union([z.number(), z.null()]),
+  })
+  .partial()
   .passthrough();
 const Book = z
   .object({
@@ -48,10 +52,14 @@ const Book = z
     id: z.union([z.number(), z.null()]),
   })
   .passthrough();
+const Body_upload_book_api_upload_book__post = z
+  .object({ file: z.instanceof(File) })
+  .passthrough();
 const BookView = z
   .object({
     name: z.string(),
     description: z.string(),
+    file_path: z.string(),
     id: z.number().int(),
     isFavorite: z.boolean(),
   })
@@ -75,8 +83,9 @@ export const schemas = {
   user_name,
   Body_generate_token_api_get_token_post,
   Token,
-  Body_upload_book_api_upload_book__post,
+  FavoriteBookLink,
   Book,
+  Body_upload_book_api_upload_book__post,
   BookView,
   ReviewCreate,
   Review,
@@ -92,13 +101,13 @@ const endpoints = makeApi([
   },
   {
     method: "get",
-    path: "/api/files/",
+    path: "/api/files/:file_path",
     alias: "read_file",
     requestFormat: "json",
     parameters: [
       {
         name: "file_path",
-        type: "Query",
+        type: "Path",
         schema: z.string(),
       },
     ],
@@ -364,10 +373,59 @@ const endpoints = makeApi([
   },
   {
     method: "get",
+    path: "/api/users/add-favorite",
+    alias: "add_favorite_book",
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "book_id",
+        type: "Query",
+        schema: z.number().int(),
+      },
+    ],
+    response: FavoriteBookLink,
+    errors: [
+      {
+        status: 422,
+        description: `Validation Error`,
+        schema: HTTPValidationError,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/api/users/get-favorites",
+    alias: "get_favorite_books",
+    requestFormat: "json",
+    response: z.array(Book),
+  },
+  {
+    method: "get",
     path: "/api/users/me",
     alias: "get_current_user",
     requestFormat: "json",
     response: z.union([User, z.null()]),
+  },
+  {
+    method: "get",
+    path: "/api/users/remove-favorite",
+    alias: "remove_favorite_book",
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "book_id",
+        type: "Query",
+        schema: z.number().int(),
+      },
+    ],
+    response: FavoriteBookLink,
+    errors: [
+      {
+        status: 422,
+        description: `Validation Error`,
+        schema: HTTPValidationError,
+      },
+    ],
   },
 ]);
 

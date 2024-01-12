@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, security
 from sqlmodel import Session
 import app.services as services
-from ..models import User, UserCreate
+from ..models import Book, BookView, FavoriteBookLink, User, UserCreate
 
 router = APIRouter(
     tags=["user"],
@@ -69,3 +69,18 @@ async def generate_token(
             status_code=401, detail="Invalid username or password")
 
     return await services.create_token(user)
+
+@router.get("/api/users/add-favorite")
+async def add_favorite_book(book_id: int, user: User = Depends(services.get_current_user),
+                            db: Session = Depends(services.get_db)) -> FavoriteBookLink:
+    return await services.add_favorite_book(book_id, user, db)
+
+@router.get("/api/users/remove-favorite")
+async def remove_favorite_book(book_id: int, user: User = Depends(services.get_current_user),
+                            db: Session = Depends(services.get_db)) -> FavoriteBookLink:
+    return await services.remove_favorite_book(book_id, user, db)
+
+@router.get("/api/users/get-favorites")
+async def get_favorite_books(user: User = Depends(services.get_current_user),
+                            db: Session = Depends(services.get_db)) -> list[BookView]:
+    return await services.get_favorite_books(user, db)

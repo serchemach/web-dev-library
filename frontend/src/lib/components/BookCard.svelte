@@ -1,8 +1,35 @@
-<script>
+<script lang="ts">
     import Button, { Label } from "@smui/button";
+    import apiClient from "../api";
+    import { apiToken } from "../stores";
 
-    export let book = {id: 0, name: "", description: "", isFavorite: false};
+    export let book = {id: 0, name: "", description: "", isFavorite: false, file_path: ""};
 
+    const addFavorite = () => {
+        apiClient.add_favorite_book({
+            queries: {
+                book_id: book.id
+            },
+            headers: {
+                Authorization: `Bearer ${$apiToken}`
+            }
+        }).then(()=>{
+            book.isFavorite = true;
+        })
+    }
+
+    const removeFavorite = () => {
+        apiClient.remove_favorite_book({
+            queries: {
+                book_id: book.id
+            },
+            headers: {
+                Authorization: `Bearer ${$apiToken}`
+            }
+        }).then(()=>{
+            book.isFavorite = false;
+        })
+    } 
 </script>
 
 <style>
@@ -41,18 +68,20 @@
     </span>
     <div class="book-favorite-btn">
         {#if book.isFavorite}
-            <Button style="background-color: crimson;">
+            <Button style="background-color: crimson;" on:click={removeFavorite}>
                 <Label>Remove from favorites</Label>
             </Button>
         {:else}
-            <Button style="background-color: green;">
+            <Button style="background-color: green;" on:click={addFavorite}>
                 <Label>Add to favorites</Label>
             </Button>
         {/if}
 
-        <Button>
-            <Label>Download the book</Label>
-        </Button>
+        <a href={`/api/files/${book.file_path}`}>
+            <Button>
+                <Label>Download the book</Label>
+            </Button>
+        </a>
     </div>
 </div>
 

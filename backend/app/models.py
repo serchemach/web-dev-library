@@ -55,7 +55,7 @@ class Book(BookCreate, table=True):
     id: int | None = Field(primary_key=True, index=True)
     favorited_users: list['User'] = Relationship(back_populates="favorite_books", link_model=FavoriteBookLink)
 
-class BookView(BookBase):
+class BookView(BookCreate):
     id: int
     isFavorite: bool
 

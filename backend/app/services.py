@@ -1,6 +1,8 @@
+from os import link
 from pyexpat import model
 from fastapi import HTTPException, security
 import fastapi
+from sqlalchemy import true
 from sqlmodel import SQLModel, Session, select
 import app.database as database, app.models as models
 import passlib.hash as hash
@@ -145,5 +147,35 @@ async def get_books_for_user(offset: int, limit: int, db: Session, user: models.
         name=x.name, 
         description=x.description,
         id=x.id,
+        file_path=x.file_path,
         isFavorite=x in favorite_books
         ), books_to_show)
+
+async def add_favorite_book(book_id: int, user: models.User, db: Session):
+    link_obj = models.FavoriteBookLink(
+        book_id=book_id,
+        user_id=user.id
+    )
+
+    db.add(link_obj)
+    db.commit()
+    db.refresh(link_obj)
+    return link_obj
+
+async def remove_favorite_book(book_id: int, user: models.User, db: Session):
+    link_obj = db.exec(select(models.FavoriteBookLink).where(models.FavoriteBookLink.book_id == book_id and 
+                                                             models.FavoriteBookLink.user_id == user.id)).first()
+
+    db.delete(link_obj)
+    db.commit()
+    
+    return link_obj
+
+async def get_favorite_books(user: models.User, db: Session):
+    return map(lambda x: models.BookView(
+        name=x.name, 
+        description=x.description,
+        id=x.id,
+        file_path=x.file_path,
+        isFavorite=True
+        ), user.favorite_books)

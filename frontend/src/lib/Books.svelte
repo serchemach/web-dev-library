@@ -19,7 +19,6 @@
 </script>
 
 
-<!-- <div>BPPLS </div> -->
 {#await bookList}
     Loading books...
 {:then books} 

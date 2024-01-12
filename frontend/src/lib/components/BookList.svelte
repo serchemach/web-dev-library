@@ -1,9 +1,6 @@
 <script>
-    import apiClient from "../api";
     import BookCard from "./BookCard.svelte";
-
-    export let bookList = [{id: 0, name: "", description: "", isFavorite: false}];
-
+    export let bookList = [{id: 0, name: "", description: "", isFavorite: false, file_path: ""}];
 </script>
 
 

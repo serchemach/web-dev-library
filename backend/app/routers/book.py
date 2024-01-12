@@ -40,9 +40,12 @@ async def get_books(offset: int, limit: int, db: Session = Depends(services.get_
                     user: User = Depends(services.get_current_user)) -> list[BookView]:
     return await services.get_books_for_user(offset, limit, db, user)
 
-@router.get("/api/files/")
+PATH_BASE = "./uploads/"
+
+@router.get("/api/files/{file_path:path}")
 async def read_file(file_path: str):
-    if not os.path.exists(file_path):
+    print(PATH_BASE + file_path)
+    if not os.path.exists(PATH_BASE + file_path):
         raise HTTPException(status_code=404, detail="No SUCH FILE")
 
-    return FileResponse(file_path)
+    return FileResponse(PATH_BASE + file_path)
