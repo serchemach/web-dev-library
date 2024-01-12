@@ -41,6 +41,7 @@
         padding: 2rem;
         text-align: center;
         display: flex;
+        flex-direction: column;
         place-items: center;
         min-width: 320px;
         min-height: 100vh;

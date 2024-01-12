@@ -44,17 +44,6 @@ const FavoriteBookLink = z
   })
   .partial()
   .passthrough();
-const Book = z
-  .object({
-    name: z.string(),
-    description: z.string(),
-    file_path: z.string(),
-    id: z.union([z.number(), z.null()]),
-  })
-  .passthrough();
-const Body_upload_book_api_upload_book__post = z
-  .object({ file: z.instanceof(File) })
-  .passthrough();
 const BookView = z
   .object({
     name: z.string(),
@@ -62,6 +51,17 @@ const BookView = z
     file_path: z.string(),
     id: z.number().int(),
     isFavorite: z.boolean(),
+  })
+  .passthrough();
+const Body_upload_book_api_upload_book__post = z
+  .object({ file: z.instanceof(File) })
+  .passthrough();
+const Book = z
+  .object({
+    name: z.string(),
+    description: z.string(),
+    file_path: z.string(),
+    id: z.union([z.number(), z.null()]),
   })
   .passthrough();
 const ReviewCreate = z
@@ -84,9 +84,9 @@ export const schemas = {
   Body_generate_token_api_get_token_post,
   Token,
   FavoriteBookLink,
-  Book,
-  Body_upload_book_api_upload_book__post,
   BookView,
+  Body_upload_book_api_upload_book__post,
+  Book,
   ReviewCreate,
   Review,
 };
@@ -397,7 +397,7 @@ const endpoints = makeApi([
     path: "/api/users/get-favorites",
     alias: "get_favorite_books",
     requestFormat: "json",
-    response: z.array(Book),
+    response: z.array(BookView),
   },
   {
     method: "get",

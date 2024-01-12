@@ -16,7 +16,9 @@
 
 
 {#await bookList}
-    Loading books...
+    <div>
+        Loading books...
+    </div>
 {:then books} 
     <BookList bookList={books}/>
 {:catch e}

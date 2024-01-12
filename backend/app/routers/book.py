@@ -1,3 +1,4 @@
+from genericpath import isfile
 import os
 from typing_extensions import Annotated
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
@@ -5,6 +6,7 @@ from fastapi.responses import FileResponse
 from sqlmodel import Session
 import app.services as services
 from ..models import Book, BookBase, BookCreate, BookView, User
+import secrets
 
 router = APIRouter(
     tags=["book"],
@@ -18,7 +20,12 @@ async def upload_book(file: Annotated[UploadFile, File(description="A file read 
             "message": "No upload file sent"
         }
 
-    file_path = f"uploads/{file.filename}"
+    stored_filename = secrets.token_urlsafe(16) + ".pdf"
+    file_path = f"uploads/{stored_filename}"
+    while os.path.isfile(file_path):
+        stored_filename = secrets.token_urlsafe(16) + ".pdf"
+        file_path = f"uploads/{stored_filename}"
+
     with open(file_path, "wb") as file_obj:
         file_obj.write(file.file.read())
 
@@ -44,8 +51,8 @@ PATH_BASE = "./uploads/"
 
 @router.get("/api/files/{file_path:path}")
 async def read_file(file_path: str):
-    print(PATH_BASE + file_path)
-    if not os.path.exists(PATH_BASE + file_path):
+    print(file_path)
+    if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="No SUCH FILE")
 
-    return FileResponse(PATH_BASE + file_path)
+    return FileResponse(file_path)
