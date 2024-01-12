@@ -9,7 +9,7 @@
     let urlParams = new URLSearchParams(window.location.search);
     let pageNum = parseInt(urlParams.get('page') ?? "0") || 0;
 
-    const pageEntryLimit = 10;
+    const pageEntryLimit = 15;
 
     let bookList = apiClient.get_books({
         queries: {
@@ -59,9 +59,7 @@
                 <Label>{"<"}</Label>
             </Button>
         {/if}
-        <div>
-            Page number {pageNum}
-        </div>
+        <Label>{pageNum}</Label>
         {#if books.length === pageEntryLimit + 1}
             <Button on:click={moveForward} variant="outlined">
                 <Label>{">"}</Label>
@@ -77,9 +75,7 @@
                 <Label>{"<"}</Label>
             </Button>
         {/if}
-        <div>
-            Page number {pageNum}
-        </div>
+        <Label>{pageNum}</Label>
         {#if books.length === pageEntryLimit + 1}
             <Button on:click={moveForward} variant="outlined">
                 <Label>{">"}</Label>
