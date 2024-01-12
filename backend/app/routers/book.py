@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from sqlmodel import Session
 import app.services as services
-from ..models import Book, BookBase, BookCreate, BookView, User
+from ..models import Book, BookBase, BookCreate, BookView, BookViewReview, User
 import secrets
 
 router = APIRouter(
@@ -40,6 +40,12 @@ async def upload_book(file: Annotated[UploadFile, File(description="A file read 
 @router.get("/api/get-book/{id}")
 async def get_book_by_id(id: int, db: Session = Depends(services.get_db)) -> Book | None:
     book = await services.get_book_by_id(id, db)
+    return book
+
+@router.get("/api/get-book-full/{id}")
+async def get_book_by_id_with_favorite_and_reviews(id: int, db: Session = Depends(services.get_db),
+                                       user: User = Depends(services.get_current_user)) -> BookViewReview:
+    book = await services.get_book_by_id_with_favorite_and_reviews(id, db, user)
     return book
 
 @router.get("/api/get-books")

@@ -8,6 +8,7 @@
     import Books from './lib/Books.svelte';
     import Users from './lib/CreateBooks.svelte';
     import Header from './lib/components/Header.svelte';
+    import BookDetailed from './lib/BookDetailed.svelte';
 </script>
 
 <main>
@@ -26,6 +27,13 @@
             <Header currentTabIndex={1} /> 
             <!-- <div>{JSON.stringify(window.location.search)}</div> -->
             <Books />
+        </Route>
+
+        <Route path="/books/:id" let:params>
+            <Verify />
+            <Header currentTabIndex={1} /> 
+            <!-- <div>{JSON.stringify(window.location.search)}</div> -->
+            <BookDetailed book_id={parseInt(params.id) || 0}/>
         </Route>
 
         <Route path="/create-books">

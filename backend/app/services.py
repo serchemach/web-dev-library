@@ -179,3 +179,20 @@ async def get_favorite_books(user: models.User, db: Session):
         file_path=x.file_path,
         isFavorite=True
         ), user.favorite_books)
+
+async def get_book_by_id_with_favorite_and_reviews(book_id: int, db: Session, user: models.User):
+    book = db.exec(select(models.Book).where(models.Book.id == book_id)).first()
+
+    return models.BookViewReview(
+            name=book.name, 
+            description=book.description,
+            id=book.id,
+            file_path=book.file_path,
+            isFavorite=book in user.favorite_books,
+            reviews=book.reviews
+        )
+
+async def get_reviews_by_book_id(book_id: int, db: Session, user: models.User):
+    book = db.exec(select(models.Book).where(models.Book.id == book_id)).first()
+
+    return book.reviews

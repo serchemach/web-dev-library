@@ -62,4 +62,5 @@ class BookView(BookCreate):
     id: int
     isFavorite: bool
 
-
+class BookViewReview(BookView):
+    reviews: list[Review]

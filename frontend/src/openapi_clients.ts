@@ -64,14 +64,29 @@ const Book = z
     id: z.union([z.number(), z.null()]),
   })
   .passthrough();
-const ReviewCreate = z
-  .object({ content: z.string(), owner_id: z.number().int().optional() })
-  .passthrough();
 const Review = z
   .object({
     content: z.string(),
     owner_id: z.number().int().optional(),
+    book_id: z.number().int().optional(),
     id: z.union([z.number(), z.null()]),
+  })
+  .passthrough();
+const BookViewReview = z
+  .object({
+    name: z.string(),
+    description: z.string(),
+    file_path: z.string(),
+    id: z.number().int(),
+    isFavorite: z.boolean(),
+    reviews: z.array(Review),
+  })
+  .passthrough();
+const ReviewCreate = z
+  .object({
+    content: z.string(),
+    owner_id: z.number().int().optional(),
+    book_id: z.number().int().optional(),
   })
   .passthrough();
 
@@ -87,8 +102,9 @@ export const schemas = {
   BookView,
   Body_upload_book_api_upload_book__post,
   Book,
-  ReviewCreate,
   Review,
+  BookViewReview,
+  ReviewCreate,
 };
 
 const endpoints = makeApi([
@@ -112,6 +128,27 @@ const endpoints = makeApi([
       },
     ],
     response: z.unknown(),
+    errors: [
+      {
+        status: 422,
+        description: `Validation Error`,
+        schema: HTTPValidationError,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/api/get-book-full/:id",
+    alias: "get_book_by_id_with_favorite_and_reviews",
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "id",
+        type: "Path",
+        schema: z.number().int(),
+      },
+    ],
+    response: BookViewReview,
     errors: [
       {
         status: 422,
@@ -159,6 +196,27 @@ const endpoints = makeApi([
       },
     ],
     response: z.array(BookView),
+    errors: [
+      {
+        status: 422,
+        description: `Validation Error`,
+        schema: HTTPValidationError,
+      },
+    ],
+  },
+  {
+    method: "get",
+    path: "/api/get-reviews-book-id",
+    alias: "get_reviews_by_book_id",
+    requestFormat: "json",
+    parameters: [
+      {
+        name: "book_id",
+        type: "Query",
+        schema: z.number().int(),
+      },
+    ],
+    response: z.array(Review),
     errors: [
       {
         status: 422,
