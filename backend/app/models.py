@@ -33,11 +33,13 @@ class UserCreate(UserBase):
 class ReviewBase(SQLModel):
     content: str
     owner_id: int = Field(default=None, foreign_key="users.id")
+    book_id: int = Field(default=None, foreign_key="books.id")
 
 class Review(ReviewBase, table=True):
     __tablename__ = "reviews"
     id: int | None = Field(primary_key=True, index=True)
     owner: User = Relationship(back_populates='reviews')
+    book: 'Book' = Relationship(back_populates='reviews')
 
 class ReviewCreate(ReviewBase):
     pass
@@ -54,6 +56,7 @@ class Book(BookCreate, table=True):
     __tablename__ = "books"
     id: int | None = Field(primary_key=True, index=True)
     favorited_users: list['User'] = Relationship(back_populates="favorite_books", link_model=FavoriteBookLink)
+    reviews: list[Review] = Relationship(back_populates="book")
 
 class BookView(BookCreate):
     id: int
