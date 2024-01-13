@@ -1,5 +1,4 @@
 <script>
-    import TabBar from '@smui/tab-bar';
     import { Link, navigate } from 'svelte-routing';
     import Button, { Label } from '@smui/button';
 
