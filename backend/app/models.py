@@ -41,8 +41,14 @@ class Review(ReviewBase, table=True):
     owner: User = Relationship(back_populates='reviews')
     book: 'Book' = Relationship(back_populates='reviews')
 
-class ReviewCreate(ReviewBase):
-    pass
+class ReviewCreate(SQLModel):
+    content: str
+    book_id: int
+
+class ReviewView(SQLModel):
+    content: str
+    owner: User
+    book: 'Book'
 
 class BookBase(SQLModel):
     name: str = Field(index=True)
@@ -63,4 +69,4 @@ class BookView(BookCreate):
     isFavorite: bool
 
 class BookViewReview(BookView):
-    reviews: list[Review]
+    reviews: list[ReviewView]

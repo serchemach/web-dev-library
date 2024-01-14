@@ -23,6 +23,7 @@
     let bookDescription = "";
 
     const submitBook = () => {
+        isSuccessfulSubmit = false;
         if (!bookFiles.length) {
             noFilesErr = true;
         }

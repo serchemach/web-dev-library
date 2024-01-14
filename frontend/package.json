@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build_api": "npx openapi-zod-client ../backend/openapi.json -o ./src/openapi_clients.ts",
+    "build_api": "npx openapi-zod-client ../backend/openapi.json -o ./src/openapi_clients.ts -t schemas-and-types-directly.hbs --export-schemas",
     "dev": "vite build --watch",
     "build": "npm run build_api && vite build",
     "preview": "vite preview",

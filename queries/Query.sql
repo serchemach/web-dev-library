@@ -15,7 +15,8 @@ CREATE TABLE books (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	description TEXT,
 	name VARCHAR(255) NOT NULL,
-	file_path VARCHAR(255) NOT NULL
+	file_path VARCHAR(255) NOT NULL,
+	preview_path VARCHAR(255),
 );
 
 CREATE TABLE reviews (

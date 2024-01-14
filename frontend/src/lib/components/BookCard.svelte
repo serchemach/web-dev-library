@@ -4,8 +4,9 @@
     import apiClient from "../api";
     import { apiToken } from "../stores";
     import { Link } from "svelte-routing";
+    import type { BookView } from "../../openapi_clients";
 
-    export let book = {id: 0, name: "", description: "", isFavorite: false, file_path: ""};
+    export let book: BookView;
 
     const addFavorite = () => {
         apiClient.add_favorite_book({
@@ -60,10 +61,9 @@
         align-items: center;
         justify-content: center;
 
-        width: 50px;
+        width: 100%;
         height: 100px;
         border-radius: 5px;
-        margin: auto;
     }
 
     .book-btn {
@@ -75,7 +75,7 @@
 </style>
 
 <div class="card-container">
-    <div>
+    <div style="width: 95%;">
         <span class="book-icon">
             <Icon class="material-icons">book</Icon>
         </span>

@@ -1,10 +1,11 @@
-import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
+import { makeApi, Zodios } from "@zodios/core";
 import { z } from "zod";
 
-const UserCreate = z
+export const UserCreate = z
   .object({ username: z.string(), email: z.string(), password: z.string() })
   .passthrough();
-const User = z
+export type UserCreate = z.infer<typeof UserCreate>;
+export const User = z
   .object({
     username: z.string(),
     email: z.string(),
@@ -12,19 +13,23 @@ const User = z
     pass_hash: z.string(),
   })
   .passthrough();
-const ValidationError = z
+export type User = z.infer<typeof User>;
+export const ValidationError = z
   .object({
     loc: z.array(z.union([z.string(), z.number()])),
     msg: z.string(),
     type: z.string(),
   })
   .passthrough();
-const HTTPValidationError = z
+export type ValidationError = z.infer<typeof ValidationError>;
+export const HTTPValidationError = z
   .object({ detail: z.array(ValidationError) })
   .partial()
   .passthrough();
-const user_name = z.union([z.string(), z.null()]).optional();
-const Body_generate_token_api_get_token_post = z
+export type HTTPValidationError = z.infer<typeof HTTPValidationError>;
+export const user_name = z.union([z.string(), z.null()]).optional();
+export type user_name = z.infer<typeof user_name>;
+export const Body_generate_token_api_get_token_post = z
   .object({
     grant_type: z.union([z.string(), z.null()]).optional(),
     username: z.string(),
@@ -34,17 +39,22 @@ const Body_generate_token_api_get_token_post = z
     client_secret: z.union([z.string(), z.null()]).optional(),
   })
   .passthrough();
-const Token = z
+export type Body_generate_token_api_get_token_post = z.infer<
+  typeof Body_generate_token_api_get_token_post
+>;
+export const Token = z
   .object({ access_token: z.string(), token_type: z.string() })
   .passthrough();
-const FavoriteBookLink = z
+export type Token = z.infer<typeof Token>;
+export const FavoriteBookLink = z
   .object({
     user_id: z.union([z.number(), z.null()]),
     book_id: z.union([z.number(), z.null()]),
   })
   .partial()
   .passthrough();
-const BookView = z
+export type FavoriteBookLink = z.infer<typeof FavoriteBookLink>;
+export const BookView = z
   .object({
     name: z.string(),
     description: z.string(),
@@ -53,10 +63,14 @@ const BookView = z
     isFavorite: z.boolean(),
   })
   .passthrough();
-const Body_upload_book_api_upload_book__post = z
+export type BookView = z.infer<typeof BookView>;
+export const Body_upload_book_api_upload_book__post = z
   .object({ file: z.instanceof(File) })
   .passthrough();
-const Book = z
+export type Body_upload_book_api_upload_book__post = z.infer<
+  typeof Body_upload_book_api_upload_book__post
+>;
+export const Book = z
   .object({
     name: z.string(),
     description: z.string(),
@@ -64,31 +78,35 @@ const Book = z
     id: z.union([z.number(), z.null()]),
   })
   .passthrough();
-const Review = z
-  .object({
-    content: z.string(),
-    owner_id: z.number().int().optional(),
-    book_id: z.number().int().optional(),
-    id: z.union([z.number(), z.null()]),
-  })
+export type Book = z.infer<typeof Book>;
+export const ReviewView = z
+  .object({ content: z.string(), owner: User, book: Book })
   .passthrough();
-const BookViewReview = z
+export type ReviewView = z.infer<typeof ReviewView>;
+export const BookViewReview = z
   .object({
     name: z.string(),
     description: z.string(),
     file_path: z.string(),
     id: z.number().int(),
     isFavorite: z.boolean(),
-    reviews: z.array(Review),
+    reviews: z.array(ReviewView),
   })
   .passthrough();
-const ReviewCreate = z
+export type BookViewReview = z.infer<typeof BookViewReview>;
+export const ReviewCreate = z
+  .object({ content: z.string(), book_id: z.number().int() })
+  .passthrough();
+export type ReviewCreate = z.infer<typeof ReviewCreate>;
+export const Review = z
   .object({
     content: z.string(),
     owner_id: z.number().int().optional(),
     book_id: z.number().int().optional(),
+    id: z.union([z.number(), z.null()]),
   })
   .passthrough();
+export type Review = z.infer<typeof Review>;
 
 export const schemas = {
   UserCreate,
@@ -102,9 +120,10 @@ export const schemas = {
   BookView,
   Body_upload_book_api_upload_book__post,
   Book,
-  Review,
+  ReviewView,
   BookViewReview,
   ReviewCreate,
+  Review,
 };
 
 const endpoints = makeApi([

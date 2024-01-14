@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 import app.services as services
-from ..models import Review, ReviewCreate, User
+from ..models import Review, ReviewBase, ReviewCreate, User
 
 router = APIRouter(
     tags=["review"],
@@ -13,10 +13,11 @@ async def create_review(
     db: Session = Depends(services.get_db),
     user: User = Depends(services.get_current_user)
 ) -> Review:
-    if user.id != review.owner_id:
-        raise HTTPException(
-            status_code=401, detail="Can only add your own reviews")
-    review_obj = await services.create_review(review, db)
+    review_obj = await services.create_review(ReviewBase(
+        book_id=review.book_id,
+        owner_id=user.id,
+        content=review.content
+    ), db)
     return review_obj
 
 @router.get("/api/get-reviews-book-id")

@@ -91,7 +91,7 @@ async def get_current_user(
 
     return user
 
-async def create_review(review: models.ReviewCreate, db: Session):
+async def create_review(review: models.ReviewBase, db: Session):
     user_obj = await get_user_by_id(review.owner_id, db)
     if user_obj is None:
         db.close()
@@ -99,7 +99,8 @@ async def create_review(review: models.ReviewCreate, db: Session):
     
     review_obj = models.Review(
         content = review.content,
-        owner_id = review.owner_id
+        owner_id = review.owner_id,
+        book_id = review.book_id
     )
 
     db.add(review_obj)
