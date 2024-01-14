@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { BookView } from "../../openapi_clients";
+    import type { BookView, Review } from "../../openapi_clients";
     import Textfield from "@smui/textfield";
     import apiClient from "../api";
     import Button, { Label } from "@smui/button";
@@ -7,7 +7,7 @@
     export let book: BookView;
 
     let reviewContent = "";
-    let submitResult;
+    let submitResult: Promise<Review>;
 
     const submitReview = () => {
         submitResult = apiClient.create_review({

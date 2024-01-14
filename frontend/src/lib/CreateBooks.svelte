@@ -1,17 +1,16 @@
 <script lang="ts">
     import Textfield from "@smui/textfield";
     import apiClient from "./api";
-    import Button from "@smui/button/src/Button.svelte";
+    import Button from "@smui/button";
     import { Label } from "@smui/button";
 
     let isWrongFileType = false;
     let noFilesErr = false;
     let isSuccessfulSubmit = false;
-    let bookFiles: FileList = [];
-    $: if (bookFiles.length) {
+    let bookFiles: FileList | null = null;
+    $: if (bookFiles && bookFiles.length) {
         if (bookFiles[0].type != "application/pdf"){
             isWrongFileType = true;
-            bookFiles = [];
         }
         else {
             isWrongFileType = false;
@@ -24,7 +23,7 @@
 
     const submitBook = () => {
         isSuccessfulSubmit = false;
-        if (!bookFiles.length) {
+        if (!bookFiles || !bookFiles.length) {
             noFilesErr = true;
         }
         else {

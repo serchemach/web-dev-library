@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { ReviewView } from "../openapi_clients";
     import apiClient from "./api";
+    import { Link } from 'svelte-routing';
     import { apiToken } from "./stores";
 
-    let reviews: ReviewView[] = apiClient.get_user_reviews({
+    let reviews = apiClient.get_user_reviews({
         headers: {
             Authorization: `Bearer ${$apiToken}`
         }
@@ -27,12 +27,14 @@
 {:then revs} 
     {#each revs as review}
         <div class="review-container">
-            <strong>{review.book.name}</strong>
+            <Link to={`/books/${review.book.id}`}> 
+                <strong>{review.book.name}</strong>
+            </Link>
             <div class="review-content">{review.content}</div>
         </div>
     {/each}
-    
-    {#if !reviews || reviews.length === 0}
+
+    {#if !revs || revs.length === 0}
         <div>No reviews</div>
     {/if}
 {:catch}

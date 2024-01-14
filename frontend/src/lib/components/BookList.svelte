@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
     import BookCard from "./BookCard.svelte";
-    export let bookList = [{id: 0, name: "", description: "", isFavorite: false, file_path: ""}];
+    import type { BookView } from "../../openapi_clients";
+    export let bookList: BookView[];
 </script>
 
 <style>
