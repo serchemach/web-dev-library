@@ -53,34 +53,26 @@
     Loading books...
 </div>
 {:then books} 
-    <div>
-        {#if pageNum > 0}
-            <Button on:click={moveBack} variant="outlined">
-                <Label>{"<"}</Label>
-            </Button>
-        {/if}
+    <div style="margin-top: 10px">
+        <Button on:click={moveBack} variant="outlined" disabled={pageNum <= 0}>
+            <Label>{"<"}</Label>
+        </Button>
         <Label>{pageNum}</Label>
-        {#if books.length === pageEntryLimit + 1}
-            <Button on:click={moveForward} variant="outlined">
-                <Label>{">"}</Label>
-            </Button>
-        {/if}
+        <Button on:click={moveForward} variant="outlined" disabled={books.length !== pageEntryLimit + 1}>
+            <Label>{">"}</Label>
+        </Button>
     </div>
 
     <BookList bookList={books.slice(0, pageEntryLimit)}/>
 
     <div>
-        {#if pageNum > 0}
-            <Button on:click={moveBack} variant="outlined">
-                <Label>{"<"}</Label>
-            </Button>
-        {/if}
+        <Button on:click={moveBack} variant="outlined" disabled={pageNum <= 0}>
+            <Label>{"<"}</Label>
+        </Button>
         <Label>{pageNum}</Label>
-        {#if books.length === pageEntryLimit + 1}
-            <Button on:click={moveForward} variant="outlined">
-                <Label>{">"}</Label>
-            </Button>
-        {/if}
+        <Button on:click={moveForward} variant="outlined" disabled={books.length !== pageEntryLimit + 1}>
+            <Label>{">"}</Label>
+        </Button>
     </div>
 {:catch e}
     {e}
