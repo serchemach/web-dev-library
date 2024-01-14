@@ -9,6 +9,7 @@
     import Users from './lib/CreateBooks.svelte';
     import Header from './lib/components/Header.svelte';
     import BookDetailed from './lib/BookDetailed.svelte';
+    import UserReviews from './lib/UserReviews.svelte';
 </script>
 
 <main>
@@ -40,6 +41,12 @@
             <Verify />
             <Header currentTabIndex={2} /> 
             <Users />
+        </Route>
+
+        <Route path="/my-reviews">
+            <Verify />
+            <Header currentTabIndex={3} /> 
+            <UserReviews />
         </Route>
     </Router>
 </main>

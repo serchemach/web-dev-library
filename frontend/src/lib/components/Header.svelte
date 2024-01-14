@@ -4,8 +4,8 @@
 
     export let currentTabIndex = 0;
 
-    const tabs = ['Favorite books', 'All books', 'Create books'];
-    const tabLinks = ["/", "/books", "/create-books"]
+    const tabs = ['Favorite books', 'All books', 'Create books', 'My reviews'];
+    const tabLinks = ["/", "/books", "/create-books", "/my-reviews"]
 
 </script>
 

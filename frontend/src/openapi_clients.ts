@@ -266,6 +266,13 @@ const endpoints = makeApi([
     ],
   },
   {
+    method: "get",
+    path: "/api/get-user-reviews",
+    alias: "get_user_reviews",
+    requestFormat: "json",
+    response: z.array(ReviewView),
+  },
+  {
     method: "post",
     path: "/api/review",
     alias: "create_review",

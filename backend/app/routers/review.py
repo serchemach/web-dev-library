@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 import app.services as services
-from ..models import Review, ReviewBase, ReviewCreate, User
+from ..models import Review, ReviewBase, ReviewCreate, ReviewView, User
 
 router = APIRouter(
     tags=["review"],
@@ -25,3 +25,8 @@ async def get_reviews_by_book_id(book_id: int, db: Session = Depends(services.ge
                     user: User = Depends(services.get_current_user)) -> list[Review]:
     return await services.get_reviews_by_book_id(book_id, db, user)
 
+
+@router.get("/api/get-user-reviews")
+async def get_user_reviews(db: Session = Depends(services.get_db), 
+                    user: User = Depends(services.get_current_user)) -> list[ReviewView]:
+    return user.reviews
