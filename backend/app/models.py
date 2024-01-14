@@ -56,6 +56,7 @@ class BookBase(SQLModel):
 
 class BookCreate(BookBase):
     file_path: str
+    preview_path: None | str = Field(default=None)
     pass
 
 class Book(BookCreate, table=True):

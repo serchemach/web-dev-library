@@ -128,6 +128,7 @@ async def create_book(book: models.BookCreate, db: Session):
         name = book.name,
         description = book.description,
         file_path = book.file_path,
+        preview_path = book.preview_path
     )
 
     db.add(book_obj)
@@ -149,7 +150,8 @@ async def get_books_for_user(offset: int, limit: int, db: Session, user: models.
         description=x.description,
         id=x.id,
         file_path=x.file_path,
-        isFavorite=x in favorite_books
+        isFavorite=x in favorite_books,
+        preview_path=x.preview_path,
         ), books_to_show)
 
 async def add_favorite_book(book_id: int, user: models.User, db: Session):
@@ -178,7 +180,8 @@ async def get_favorite_books(user: models.User, db: Session):
         description=x.description,
         id=x.id,
         file_path=x.file_path,
-        isFavorite=True
+        isFavorite=True,
+        preview_path=x.preview_path,
         ), user.favorite_books)
 
 async def get_book_by_id_with_favorite_and_reviews(book_id: int, db: Session, user: models.User):
@@ -190,7 +193,8 @@ async def get_book_by_id_with_favorite_and_reviews(book_id: int, db: Session, us
             id=book.id,
             file_path=book.file_path,
             isFavorite=book in user.favorite_books,
-            reviews=book.reviews
+            reviews=book.reviews,
+            preview_path=book.preview_path,
         )
 
 async def get_reviews_by_book_id(book_id: int, db: Session, user: models.User):

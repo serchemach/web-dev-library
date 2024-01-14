@@ -7,6 +7,7 @@ from sqlmodel import Session
 import app.services as services
 from ..models import Book, BookBase, BookCreate, BookView, BookViewReview, User
 import secrets
+import pypdfium2 as pdfium
 
 router = APIRouter(
     tags=["book"],
@@ -29,10 +30,19 @@ async def upload_book(file: Annotated[UploadFile, File(description="A file read 
     with open(file_path, "wb") as file_obj:
         file_obj.write(file.file.read())
 
+    # Save the preview
+    pdf = pdfium.PdfDocument(file_path)
+    preview_path = f"uploads/previews/{stored_filename}"[:-4] + ".jpeg"
+    image = pdf[0].render(scale=4).to_pil()
+    if not os.path.exists("uploads/previews"):
+        os.makedirs("uploads/previews")
+    image.save(preview_path)
+
     book_obj = await services.create_book(BookCreate(
         name = name,
         description = description,
         file_path = file_path,
+        preview_path = preview_path,
     ), db)
     return book_obj
 

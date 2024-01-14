@@ -7,6 +7,9 @@
     import type { BookView } from "../../openapi_clients";
 
     export let book: BookView;
+    
+    console.log(book);
+    const backgroundPath = book.preview_path ? `/api/files/${book.preview_path}` : "";
 
     const addFavorite = () => {
         apiClient.add_favorite_book({
@@ -55,8 +58,9 @@
         border-radius: 5px;
     }
 
-    .book-icon {
+    #book-icon {
         background-color: blanchedalmond;
+        background-size: cover;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -76,8 +80,10 @@
 
 <div class="card-container">
     <div style="width: 95%;">
-        <span class="book-icon">
-            <Icon class="material-icons">book</Icon>
+        <span id="book-icon" style={`background-image: url(${backgroundPath})`}>
+            {#if !backgroundPath}
+                <Icon class="material-icons">book</Icon>
+            {/if}
         </span>
         <span style="text-align: center; min-width: fit-content;">
             <h3>{book.name}</h3>

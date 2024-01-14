@@ -59,6 +59,7 @@ export const BookView = z
     name: z.string(),
     description: z.string(),
     file_path: z.string(),
+    preview_path: z.union([z.string(), z.null()]),
     id: z.number().int(),
     isFavorite: z.boolean(),
   })
@@ -75,6 +76,7 @@ export const Book = z
     name: z.string(),
     description: z.string(),
     file_path: z.string(),
+    preview_path: z.union([z.string(), z.null()]),
     id: z.union([z.number(), z.null()]),
   })
   .passthrough();
@@ -88,6 +90,7 @@ export const BookViewReview = z
     name: z.string(),
     description: z.string(),
     file_path: z.string(),
+    preview_path: z.union([z.string(), z.null()]),
     id: z.number().int(),
     isFavorite: z.boolean(),
     reviews: z.array(ReviewView),
