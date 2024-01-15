@@ -16,7 +16,7 @@ CREATE TABLE books (
 	description TEXT,
 	name VARCHAR(255) NOT NULL,
 	file_path VARCHAR(255) NOT NULL,
-	preview_path VARCHAR(255),
+	preview_path VARCHAR(255)
 );
 
 CREATE TABLE reviews (
@@ -37,23 +37,6 @@ CREATE TABLE user_book_link (
 );
 
 INSERT INTO `books` (`id`, `description`, `name`, `file_path`) VALUES
-	(2, 'string', 'string', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(3, '11', 'Books ', '123123'),
-	(4, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(5, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(6, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(7, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(8, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(9, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(10, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(11, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(12, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(13, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(14, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(15, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(16, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(17, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
-	(18, 'string', 'Book 1\r\n', 'uploads/Dao of the Bizarre Immortal - Chapter 216 - Considerations.txt'),
 	(19, 'Describe me some balls', 'Test1', 'uploads/NhQ-VTpn1d2Ln4KNeLvBqg.pdf'),
 	(20, 'A book about my cock', 'Is Worse Really Better?', 'uploads/nIny4SrLaWfVP0j8laXn0Q.pdf'),
 	(21, 'who knows', 'Some kind of document', 'uploads/29z081tu-M2LDlZOuDEiVQ.pdf'),
