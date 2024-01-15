@@ -15,7 +15,7 @@ services:
     volumes:
       - server-vl:/usr/local/web-dev-library/backend/uploads
     ports:
-      - "80:80"
+      - "9011:80"
 
 volumes:
   mysql-vl:
